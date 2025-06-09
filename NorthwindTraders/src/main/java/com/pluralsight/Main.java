@@ -14,8 +14,8 @@ public class Main {
 // use the database URL to point to the correct database
 
             String url = "jdbc:mysql://localhost.3306/northwind";
-            String username = "root";
-            String password = "yearup";
+            String username = "****";
+            String password = "******";
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/northwind",
                     username, password);
             // create statement
