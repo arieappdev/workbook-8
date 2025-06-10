@@ -5,7 +5,29 @@ import java.sql.*;
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
+<<<<<<< HEAD
         Class.forName("com.mysql.cj.jdbc.Driver");
+=======
+            String url = "jdbc:mysql://localhost.3306/northwind";
+            String username = "****";
+            String password = "******";
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/northwind",
+                    username, password);
+            // create statement
+// the statement is tied to the open connection
+            Statement statement = connection.createStatement();
+            // define your query
+            String query = "SELECT ProductName FROM products";
+            // 2. Execute your query
+            ResultSet results = statement.executeQuery(query);
+// process the results
+            while (results.next()) {
+                String name = results.getString("ProductName");
+                System.out.println(name);
+            }
+// 3. Close the connection
+            connection.close();
+>>>>>>> b1719b3ccea39cdc3d89e96a34ab7128884cdd56
 
         // 2. Set up connection variables
         String url = "jdbc:mysql://localhost:3306/northwind";
