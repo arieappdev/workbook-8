@@ -3,60 +3,34 @@ package com.pluralsight;
 import java.sql.*;
 
 public class Main {
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+    public static void main(String[] args) throws SQLException{
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
-
-            String url = "jdbc:mysql://localhost.3306/northwind";
-            String username = "username";
-            String password = "password";
+            String username = args[0];
+            String password = args[1];
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/northwind",
                     username, password);
             // create statement
 // the statement is tied to the open connection
-            Statement statement = connection.createStatement();
             // define your query
-            String query = "SELECT ProductName FROM products";
+        String sql = "SELECT ProductID, ProductName, UnitPrice, UnitsInStock FROM products";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
             // 2. Execute your query
-            ResultSet results = statement.executeQuery(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+        System.out.printf("%-10s %-40s %-12s %-15s%n", "Product ID", "Product Name", "Unit Price", "Units In Stock");
 // process the results
-            while (results.next()) {
-                String name = results.getString("ProductName");
-                System.out.println(name);
+            while (resultSet.next()) {
+                int productId = resultSet.getInt("ProductID");
+                String productName = resultSet.getString("ProductName");
+                double unitPrice = resultSet.getDouble("UnitPrice");
+                int unitsInStock = resultSet.getInt("UnitsInStock");
+                System.out.println("------------------------------------------------------------------------------");
+
+                System.out.printf("%-10d %-40s $%-11.2f %-15d%n", productId, productName, unitPrice, unitsInStock);
+                
             }
 // 3. Close the connection
             connection.close();
     }
 }
-
-//        try {
-//            // load the MySQL Driver
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//            // 1. open a connection to the database
-//// use the database URL to point to the correct database
-//
-//            String url = "jdbc:mysql://localhost.3306/northwind";
-//            String username = "root";
-//            String password = "yearup";
-//            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/northwind",
-//                    username, password);
-//            // create statement
-//// the statement is tied to the open connection
-//            Statement statement = connection.createStatement();
-//            // define your query
-//            String query = "SELECT ProductName FROM products";
-//            // 2. Execute your query
-//            ResultSet results = statement.executeQuery(query);
-//// process the results
-//            while (results.next()) {
-//                String name = results.getString("ProductName");
-//                System.out.println(name);
-//            }
-//// 3. Close the connection
-//            connection.close();
-//
-//        } catch (SQLException | ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//}
